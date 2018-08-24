@@ -26,7 +26,7 @@ class Carta():
         self.naipe = naipe
 
     def __str__(self):
-        return "{} de {}".format(self.VALORES3[self.valor-1], self.NAIPES[self.naipe-1])
+        return "{} de {}".format(self.VALORES[self.valor-1], self.NAIPES[self.naipe-1])
 
 
 class TCPHandler(socketserver.BaseRequestHandler):
