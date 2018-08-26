@@ -28,7 +28,7 @@ def accept_client():
 
 def client(username, cli_sock):
     """Recebe as mensagens do usuário e a envia para todos os outros usuários do chat"""
-    logging.deub("Thread iniciada.")
+    logging.debug("Thread iniciada.")
 
     # Criando uma variável local para a thread
     data = threading.local()
