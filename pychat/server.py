@@ -1,6 +1,7 @@
 import socket
 import threading
 import logging
+from multiprocessing.pool import ThreadPool
 
 HOST = "127.0.0.1"
 PORT = 8080
@@ -11,6 +12,8 @@ CONNECTIONLIST = []
 
 def accept_client():
     """Aceita conexões de novos usuários"""
+    pool = ThreadPool(processes=32)
+
     while True:
         cli_sock, cli_add = sock.accept()
         # Recebendo o nome de usuário do novo cliente
@@ -21,9 +24,7 @@ def accept_client():
         logging.info("{} conectado".format(user))
         logging.debug("\t{}\n\t{}".format(cli_sock, cli_add))
 
-        # Criando uma nova thread para o usuário
-        thread_client = threading.Thread(target=client, args=[user, cli_sock])
-        thread_client.start()
+        pool.apply_async(client, (user, cli_sock))
 
 
 def client(username, cli_sock):
