@@ -1,0 +1,8 @@
+[package]
+name = "ruschat_server"
+version = "0.1.0"
+authors = ["Leonardo Moraes Fleury <fleuryleomoraes@gmail.com>"]
+
+[dependencies]
+url = "1.7.1"
+http-muncher = "0.3"
