@@ -31,6 +31,8 @@ impl ThreadPool {
     /// # Panics
     ///
     /// Irá causar um Panic se size for zero.
+
+    //TODO: Permitir criar threads em várias máquinas/processadores
     pub fn new(size: usize) -> ThreadPool {
         assert!(size > 0);
 
@@ -45,6 +47,7 @@ impl ThreadPool {
         ThreadPool { workers, sender }
     }
 
+    //TODO: Permitir que o usuário escolha qual thread executar
     pub fn execute<F>(&self, f: F)
     where
         F: FnOnce() + Send + 'static,
