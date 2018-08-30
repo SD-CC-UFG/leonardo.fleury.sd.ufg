@@ -3,16 +3,16 @@ extern crate url;
 extern crate http_muncher;
 
 use std::str;
-use ruschatServer::ThreadPool;
+use ruschat_server::ThreadPool;
 use std::io::prelude::*;
 use std::net::TcpListener;
 use std::net::TcpStream;
 use std::net::Shutdown;
 use http_muncher::{Parser, ParserHandler};
 
-struct HttpHandler{}
+struct RequestHandler{}
 
-impl ParserHandler for HttpHandler{
+impl ParserHandler for RequestHandler{
     fn on_url(&mut self, parser: &mut Parser, url: &[u8]) -> bool {
         println!("url: {:?}", str::from_utf8(url).unwrap());
         true
@@ -43,7 +43,7 @@ fn handle_client(mut stream: TcpStream) {
 
         let message = String::from_utf8_lossy(&buf[..]);
 
-        parser.parse(&mut HttpHandler {}, message.as_bytes());
+        parser.parse(&mut RequestHandler {}, message.as_bytes());
 
         println!("{:?}", parser);
     }
@@ -56,6 +56,7 @@ fn main() {
     for stream in listener.incoming() {
         let stream = stream.unwrap();
 
+        //TODO: Escolher em qual thread executar
         pool.execute(|| {
             handle_client(stream);
         });
