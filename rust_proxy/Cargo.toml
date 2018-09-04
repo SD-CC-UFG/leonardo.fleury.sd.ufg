@@ -1,5 +1,5 @@
 [package]
-name = "ruschat_server"
+name = "rust_proxy"
 version = "0.1.0"
 authors = ["Leonardo Moraes Fleury <fleuryleomoraes@gmail.com>"]
 
@@ -7,3 +7,4 @@ authors = ["Leonardo Moraes Fleury <fleuryleomoraes@gmail.com>"]
 # url = "1.7.1"
 # httparse = "1.3.2"
 # log = "0.4"
+hyper = "0.12.9"

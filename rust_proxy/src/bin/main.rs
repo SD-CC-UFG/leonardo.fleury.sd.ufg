@@ -1,22 +1,20 @@
-extern crate ruschat_server;
+extern crate rust_proxy;
 
 use std::str;
 use std::io::prelude::*;
 use std::net::TcpListener;
 use std::net::TcpStream;
 
-use ruschat_server::ThreadPool;
+use rust_proxy::threadpool::ThreadPool;
 
 fn handle_client(mut stream: TcpStream) {
-    loop {
-        let mut buf = [0; 1024];
+    let mut buf = [0; 1024];
 
-        stream.read(&mut buf).unwrap();
+    stream.read(&mut buf).unwrap();
         
-        let req = str::from_utf8(& buf);
+    let req: Vec<&str> = str::from_utf8(& buf).unwrap().split("\r\n").collect();
 
-        println!("{:#?}", req);
-    }
+    println!("{:#?}", req);
 }
 
 fn main() {
