@@ -32,7 +32,10 @@ Então os usuários podem se conectar, executando:
 
 ``$ python3 client.py``
 
-## Sobre os requisitos para o curso
+## Conceitos
 
-- [x] Multhread
-- [x] Dispatcher e threads pré alocadas
+- Cliente - Servidor
+- Multithread
+- Cliente não bloqueante
+- Threads pré alocadas (biblioteca)
+
