@@ -12,7 +12,12 @@ fn handle_client(mut stream: TcpStream) {
 
     stream.read(&mut buf).unwrap();
         
-    let req: Vec<&str> = str::from_utf8(& buf).unwrap().split("\r\n").collect();
+    let req: Vec<&str> = str::from_utf8(& buf)
+                                .unwrap()
+                                .split("\r\n")
+                                .filter(|s| s.is_ascii())
+                                .map(|s| s.trim_matches('\u{0}'))
+                                .collect();
 
     println!("{:#?}", req);
 }
