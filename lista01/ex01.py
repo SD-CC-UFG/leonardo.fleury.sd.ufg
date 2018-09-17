@@ -30,7 +30,6 @@ class TCPHandler(socketserver.BaseRequestHandler):
         data = str(func)
         self.request.sendall(data.encode("utf-8"))
 
-
 if __name__ == '__main__':
     HOST, PORT = "localhost", 9991
 

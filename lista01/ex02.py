@@ -13,7 +13,7 @@ class Pessoa():
                 return True
             else:
                 return False
-        elif self.cargo == "feminino":
+        elif self.sexo == "feminino":
             if self.idade >= 21:
                 return True
             else:
