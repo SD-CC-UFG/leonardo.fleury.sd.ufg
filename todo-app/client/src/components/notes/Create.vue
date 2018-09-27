@@ -1,8 +1,10 @@
 <template>
-    <form class="create-note" v-on:submit.prevent="createNote()">
-        <textarea name="content" id="note-content" placeholder="Nova nota..." v-model="content"></textarea>
-        <button type="submit">+</button>
-    </form>
+    <div class="note-form">
+      <form class="create-note" v-on:submit.prevent="createNote()">
+          <textarea name="content" id="note-content" placeholder="Nova nota..." v-model="content"></textarea>
+          <button type="submit">+</button>
+      </form>
+    </div>
 </template>
 <script>
 export default {
@@ -15,14 +17,7 @@ export default {
   methods: {
     createNote () {
       if (this.content.trim()) {
-        this.axios.post('http://127.0.0.1:5000/', {
-          content: this.content
-        })
-          .then(response => {})
-          .catch(e => {
-            this.errors.push(e)
-            console.error(e)
-          })
+        this.$emit('create-note', this.content)
         this.content = ''
       }
     }
@@ -30,6 +25,9 @@ export default {
 }
 </script>
 <style>
+.note-form {
+    flex-basis: 100%;
+}
 form.create-note {
     position: relative;
     width: 480px;

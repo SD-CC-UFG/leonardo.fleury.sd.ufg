@@ -1,24 +1,26 @@
 <template>
   <div id="app" class="container">
-    <create-note-form></create-note-form>
     <notes></notes>
   </div>
 </template>
 <script>
 import Notes from './components/notes/Index'
-import CreateNoteForm from './components/notes/Create'
 
 export default {
   name: 'App',
   components: {
-    Notes,
-    CreateNoteForm
+    Notes
   }
 }
 </script>
 <style>
+body {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background-color: rgb(250, 250, 250);
+}
 .container {
   width: 960px;
   margin: auto;
+  height: 100vh;
 }
 </style>
