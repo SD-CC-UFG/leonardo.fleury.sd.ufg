@@ -67,12 +67,13 @@ export default {
         .post('http://127.0.0.1:5000/', {
           content: note
         })
-        .then(response => {})
+        .then(response => {
+          this.notes.push(response.data)
+        })
         .catch(e => {
           this.errors.push(e)
           console.error(e)
         })
-      this.getAllNotes()
     }
   }
 }
