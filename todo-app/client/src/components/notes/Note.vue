@@ -1,8 +1,12 @@
 <template>
     <div class="note">
         <div class="note-buttons">
-            <button class="edit-button" disabled></button>
-            <button class="delete-button" @click="remove"></button>
+            <button class="edit-button" disabled>
+              <span class="visually-hidden">Editar nota {{note.id}}</span>
+            </button>
+            <button class="delete-button" @click="remove">
+              <span class="visually-hidden">Remover nota {{note.id}}</span>
+            </button>
         </div>
         <p class="content">{{note.content}}</p>
     </div>
@@ -59,5 +63,16 @@ export default {
   min-height: 200px;
   background-color: antiquewhite;
   box-shadow: 0px 2px 2px rgb(0, 0, 0, 0.25);
+}
+
+.visually-hidden {
+  width: 0;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+  position: absolute;
 }
 </style>
