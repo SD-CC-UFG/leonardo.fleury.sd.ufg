@@ -1,0 +1,3 @@
+### Flask Instances ###
+instance/*
+!instance/.gitignore
