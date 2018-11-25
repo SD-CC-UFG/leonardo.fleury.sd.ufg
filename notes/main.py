@@ -10,14 +10,7 @@ bp = Blueprint('notes', __name__)
 
 @bp.route('/', methods=['POST'])
 def create_note():
-    mongo = get_db()
-
-    note = {"title": "Test note",
-            "text": "Testing the database connection hehe",
-            "date": datetime.datetime.utcnow()}
-
-    note_id = mongo.db.notes.insert_one(note).inserted_id
-    return "200 Ok"
+    pass
 
 @bp.route('/<int:note_id>', methods=['PUT'])
 def update_note(note_id):
