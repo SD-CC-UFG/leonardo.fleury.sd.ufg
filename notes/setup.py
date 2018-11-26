@@ -27,6 +27,8 @@ setup(
         'test': [
             'pytest',
             'coverage',
+            'pylint',
+            'autopep8',
         ],
     },
 )
