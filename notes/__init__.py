@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-#from . import database
+from . import database
 from . import main
 
 def create_app(test_config=None):
@@ -9,7 +9,7 @@ def create_app(test_config=None):
     # TODO: Get key and database from env vars
     app.config.from_mapping(
         SECRET_KEY='dev',
-        MONGO_URI="mongodb://admin:admin@localhost/test"
+        MONGO_URI="mongodb://admin:admin@localhost/admin"
     )
 
     if test_config is None:
