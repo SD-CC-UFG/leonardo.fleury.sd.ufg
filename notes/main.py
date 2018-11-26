@@ -43,5 +43,6 @@ def update_note(note_id):
 @bp.route('/<note_id>', methods=['DELETE'])
 def delete_note(note_id):
     mongo = get_db()
-    del_count = mongo.db.notes.delete_one({'_id': ObjectId(note_id)}).deleted_count
+    del_count = mongo.db.notes.delete_one(
+        {'_id': ObjectId(note_id)}).deleted_count
     return "{} note deleted".format(del_count)
