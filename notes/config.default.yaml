@@ -1,0 +1,16 @@
+AMQP_URI: pyamqp://${RABBITMQ_USER:guest}:${RABBITMQ_PASSWORD:guest}@${RABBITMQ_HOST:localhost}
+WEB_SERVER_ADDRESS: '0.0.0.0:8000'
+rpc_exchange: 'notes-rpc'
+max_workers: 10
+parent_calls_tracked: 10
+
+DATABASE: mongodb+srv://${MONGO_USER:guest}:${MONGO_PASSWORD:password}@${MONGO_HOST:localhost}
+
+LOGGING:
+    version: 1
+    handlers:
+        console:
+            class: logging.StreamHandler
+    root:
+        level: INFO
+        handlers: [console]
