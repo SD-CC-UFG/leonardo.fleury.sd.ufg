@@ -16,7 +16,7 @@ class Note(object):
                 'text': text,
                 'created': datetime.datetime.utcnow(),
                 'last_updated': datetime.datetime.utcnow()}
-        note_id = mongo.db.notes.insert_one(note).inserted_id
+        note_id = mongo.insert_one(note).inserted_id
         return dumps(note_id)
 
     @rpc
@@ -26,7 +26,7 @@ class Note(object):
         note = {'$currentDate': {'last_updated': True},
                 '$set': {'title': title,
                          'text': text}}
-        mod_count = mongo.db.notes.update_one(
+        mod_count = mongo.update_one(
             {'_id': ObjectId(note_id)}, note).modified_count
 
         return dumps(mod_count)
@@ -34,7 +34,7 @@ class Note(object):
     @rpc
     def delete_note(self, note_id):
         mongo = get_db()
-        del_count = mongo.db.notes.delete_one(
+        del_count = mongo.delete_one(
             {'_id': ObjectId(note_id)}).deleted_count
         return dumps(del_count)
 
@@ -42,7 +42,7 @@ class Note(object):
     def view_note(self, note_id):
         mongo = get_db()
 
-        note = mongo.db.notes.find_one({"_id": ObjectId(note_id)})
+        note = mongo.find_one({"_id": ObjectId(note_id)})
 
         return dumps(note)
 
@@ -50,6 +50,6 @@ class Note(object):
     def view_all_notes(self):
         mongo = get_db()
 
-        notes = mongo.db.notes.find()
+        notes = mongo.find()
 
         return dumps(notes)
