@@ -18,10 +18,8 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'flask',
-        'Flask-Jsonpify',
-        'Flask-PyMongo',
-        'Flask-RESTful',
+        'pika',
+        'nameko',
     ],
     extras_require={
         'test': [
