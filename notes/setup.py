@@ -12,13 +12,13 @@ setup(
     license='MIT',
     maintainer='Leonardo Fleury',
     maintainer_email='fleuryleomoraes@gmail.com',
-    description='Create, update and delete notes.',
+    description='Create, update, delete and view notes.',
     long_description=readme,
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'pika',
+        'pymongo',
         'nameko',
     ],
     extras_require={
