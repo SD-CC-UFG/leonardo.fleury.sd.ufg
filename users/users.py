@@ -16,7 +16,8 @@ class Users(object):
     @rpc
     def create_user(self, username, password):
         mongo = get_db()
-
+        # TODO: Test username for empty string, `$` character, null character or begin with `system.`
+        # TODO: Password should have at least 6 characters
         user = {
             '_id': username,
             'password': hashpw(password.encode('utf-8'), gensalt()),
@@ -66,3 +67,9 @@ class Users(object):
             return dumps({'code': 0, 'success': 'User deleted with success.'})
         else:
             return dumps({'code': 1, 'error': 'Could not delete user. Try again.'})
+
+    def __validate_username(self, username):
+        pass
+
+    def __validate_password(self, password):
+        pass

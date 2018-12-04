@@ -12,6 +12,7 @@ class Note(object):
     @rpc
     def create_note(self, title, text):
         mongo = get_db()
+        # TODO: Document can be 16MB or less
         note = {'title': title,
                 'text': text,
                 'created': datetime.datetime.utcnow(),
@@ -53,3 +54,6 @@ class Note(object):
         notes = mongo.find()
 
         return dumps(notes)
+
+    def __validate_note(self, note):
+        pass
