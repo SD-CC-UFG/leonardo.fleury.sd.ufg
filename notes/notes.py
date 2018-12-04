@@ -9,10 +9,9 @@ from notes.database import get_db
 class Note(object):
     name = "notes"
 
-    @rpc
-    def create_note(self, user, title, text):
-        mongo = get_db(user)
-
+    def create_note(self, title, text):
+        mongo = get_db()
+        # TODO: Document can be 16MB or less
         note = {'title': title,
                 'text': text,
                 'user_id': user,
@@ -60,3 +59,6 @@ class Note(object):
         notes = mongo.find({'user': user})
 
         return dumps(notes)
+
+    def __validate_note(self, note):
+        pass
