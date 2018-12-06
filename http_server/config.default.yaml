@@ -1,0 +1,10 @@
+AMQP_URI: pyamqp://${RABBITMQ_USER:guest}:${RABBITMQ_PASSWORD:guest}@${RABBITMQ_HOST:localhost}
+
+LOGGING:
+    version: 1
+    handlers:
+        console:
+            class: logging.StreamHandler
+    root:
+        level: INFO
+        handlers: [console]
