@@ -34,6 +34,7 @@ class Auth(object):
     def __encode_auth_token(self, username):
         try:
             payload = {
+                'iss': 'notes auth server',
                 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),
                 'iat': datetime.datetime.utcnow(),
                 'sub': username
