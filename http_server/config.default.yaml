@@ -1,5 +1,7 @@
 AMQP_URI: pyamqp://${RABBITMQ_USER:guest}:${RABBITMQ_PASSWORD:guest}@${RABBITMQ_HOST:localhost}
 
+SECRET_KEY: ${SECRET_KEY:dev}
+
 LOGGING:
     version: 1
     handlers:
