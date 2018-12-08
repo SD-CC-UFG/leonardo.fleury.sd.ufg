@@ -8,16 +8,11 @@ from nameko.rpc import rpc
 from bson.json_util import dumps
 from bcrypt import hashpw, gensalt
 
+from auth import log, config
 from auth.database import get_db
-
-log = logging.getLogger(__name__)
 
 class Auth(object):
     name = "auth"
-
-    def __init__(self):
-        # TODO: Set secret key in config file
-        self.SECRET_KEY = 'somethingreallybighahahahahahahahahahahahahahaha'
 
     @rpc
     def login(self, username, password):
@@ -47,7 +42,7 @@ class Auth(object):
             }
             return jwt.encode(
                 payload,
-                self.SECRET_KEY,
+                config.SECRET_KEY,
                 algorithm='HS256'
             )
         except Exception as e:
@@ -55,7 +50,7 @@ class Auth(object):
 
     def __decode_auth_token(self, auth_token):
         try:
-            payload = jwt.decode(auth_token, self.SECRET_KEY)
+            payload = jwt.decode(auth_token, config.SECRET_KEY)
             return payload['sub']
         except jwt.ExpiredSignatureError:
             return 'Signature expired. Please log in again.'

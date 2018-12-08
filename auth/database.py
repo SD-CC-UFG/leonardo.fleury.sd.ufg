@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 
+from auth import log, config
 
 def get_db():
-    return MongoClient("mongodb+srv://notes_admin:GhUTriaIlUzOVmIC@notesdb-ytix1.gcp.mongodb.net/users?retryWrites=true").users.users
+    return MongoClient(config.DATABASE).users.users

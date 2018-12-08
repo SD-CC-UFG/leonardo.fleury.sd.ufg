@@ -1,5 +1,6 @@
 import os
 import yaml
+import logging
 
 from flask import Flask
 from flask_restful import Api
@@ -8,6 +9,7 @@ from http_server.notes import Note, Notes
 from http_server.users import User, Users
 from http_server.auth import Auth
 
+log = logging.getLogger(__name__)
 
 def create_app(test_config=None):
     # create and configure the app
@@ -22,11 +24,16 @@ def create_app(test_config=None):
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        with open("config.yaml", 'r') as ymlfile:
-            cfg = yaml.load(ymlfile)
-            app.config.from_object(cfg)
+        try:
+            with open("config.yaml", 'r') as ymlfile:
+                cfg = yaml.load(ymlfile)
+                app.config.from_object(cfg)
+        except IOError as e:
+            log.error("Error loading configuration file.")
+            log.error(e)
     else:
         # load the test config if passed in
+        log.info("Loading test configurations")
         app.config.from_mapping(test_config)
 
     api.add_resource(Notes, '/notes')

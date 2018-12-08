@@ -8,9 +8,9 @@ from bson.objectid import ObjectId
 from bson.json_util import dumps
 from bcrypt import hashpw, gensalt
 
+from users import log
 from users.database import get_db
 
-log = logger = logging.getLogger(__name__)
 
 class Users(object):
     name = "users"

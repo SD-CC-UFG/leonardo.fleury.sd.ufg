@@ -4,9 +4,9 @@ import logging
 from nameko.rpc import rpc
 from bson.objectid import ObjectId
 from bson.json_util import dumps
-from notes.database import get_db
 
-log = logger = logging.getLogger(__name__)
+from notes import log
+from notes.database import get_db
 
 class Note(object):
     name = "notes"
