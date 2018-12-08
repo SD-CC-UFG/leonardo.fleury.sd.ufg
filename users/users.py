@@ -43,23 +43,23 @@ class Users(object):
                 {'_id': username}, user).modified_count
 
             if mod_count is not 0:
-                return (json.dumps({'code': 0, 'success': 'Password modified'}))
+                return json.dumps({'code': 0, 'success': 'Password modified'})
             else:
-                return (json.dumps({'code': 1, 'error': 'Password could not be modified. Try again.'}))
+                return json.dumps({'code': 1, 'error': 'Password could not be modified. Try again.'})
 
             return dumps(mod_count)
         else:
-            return (json.dumps({'code': 2, 'error': 'Incorrect password.'}))
+            return json.dumps({'code': 2, 'error': 'Incorrect password.'})
 
     @rpc
     def delete_user(self, username):
         mongo = get_db()
-        deleted = mongo.find_one({"_id": username}).deleted_count
+        deleted = mongo.delete_one({"_id": username}).deleted_count
 
         if deleted:
-            return dumps({'code': 0, 'success': 'User deleted with success.'})
+            return json.dumps({'code': 0, 'success': "User deleted with success."})
         else:
-            return dumps({'code': 1, 'error': 'Could not delete user. Try again.'})
+            return json.dumps({'code': 1, 'error': "Could not delete user. Try again."})
 
     @rpc
     def view_user(self, username):
