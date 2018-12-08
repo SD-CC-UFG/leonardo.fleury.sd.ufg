@@ -1,4 +1,6 @@
 import jwt
+import logging
+import yaml
 
 from datetime import datetime, timedelta
 
@@ -8,6 +10,7 @@ from bcrypt import hashpw, gensalt
 
 from auth.database import get_db
 
+log = logging.getLogger(__name__)
 
 class Auth(object):
     name = "auth"
@@ -25,10 +28,13 @@ class Auth(object):
         if user:
             if (hashpw(password.encode('utf-8'), user['password']) == user['password']):
                 token = self.__encode_auth_token(username)
+                log.info("User was authenticate.")
                 return {'code': 0, 'token': token}
             else:
+                log.info("User was not authenticate.")
                 return {'code': 1, 'error': 'Wrong username or password'}
         else:
+            log.info("User was not authenticate.")
             return {'code': 1, 'error': 'Wrong username or password'}
 
     def __encode_auth_token(self, username):

@@ -1,10 +1,12 @@
 import datetime
+import logging
 
 from nameko.rpc import rpc
 from bson.objectid import ObjectId
 from bson.json_util import dumps
 from notes.database import get_db
 
+log = logger = logging.getLogger(__name__)
 
 class Note(object):
     name = "notes"
@@ -20,6 +22,9 @@ class Note(object):
 
         note_id = mongo.insert_one(note).inserted_id
 
+        log.info("{} created a note.".format(user))
+        log.debug("{} created a note with id {}.".format(user, note_id))
+
         return dumps(note_id)
 
     @rpc
@@ -33,6 +38,9 @@ class Note(object):
         mod_count = mongo.update_one(
             {'_id': ObjectId(note_id)}, note).modified_count
 
+        log.info("{} updated a note.".format(user))
+        log.debug("Note {} from {} updated.".format(user, note_id))
+
         return dumps(mod_count)
 
     @rpc
@@ -41,6 +49,9 @@ class Note(object):
 
         del_count = mongo.delete_one(
             {'_id': ObjectId(note_id)}).deleted_count
+
+        log.info("{} deleted a note.".format(user))
+        log.debug("Note {} from {} deleted.".format(user, note_id))
 
         return dumps(del_count)
 
