@@ -9,7 +9,7 @@ from notes.database import get_db
 class Note(object):
     name = "notes"
 
-    def create_note(self, title, text):
+    def create_note(self, user, title, text):
         mongo = get_db()
         # TODO: Document can be 16MB or less
         note = {'title': title,
@@ -56,7 +56,7 @@ class Note(object):
     def view_all_notes(self, user):
         mongo = get_db(user)
 
-        notes = mongo.find({'user': user})
+        notes = mongo.find({'user_id': user})
 
         return dumps(notes)
 
