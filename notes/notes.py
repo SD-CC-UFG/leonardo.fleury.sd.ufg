@@ -25,7 +25,7 @@ class Note(object):
         log.info("{} created a note.".format(user))
         log.debug("{} created a note with id {}.".format(user, note_id))
 
-        return dumps(note_id)
+        return note_id
 
     @rpc
     def update_note(self, user, note_id, title, text):
@@ -41,7 +41,7 @@ class Note(object):
         log.info("{} updated a note.".format(user))
         log.debug("Note {} from {} updated.".format(user, note_id))
 
-        return dumps(mod_count)
+        return mod_count
 
     @rpc
     def delete_note(self, user, note_id):
@@ -53,7 +53,7 @@ class Note(object):
         log.info("{} deleted a note.".format(user))
         log.debug("Note {} from {} deleted.".format(user, note_id))
 
-        return dumps(del_count)
+        return del_count
 
     @rpc
     def view_note(self, user, note_id):
@@ -61,7 +61,7 @@ class Note(object):
 
         note = mongo.find_one({"_id": ObjectId(note_id)})
 
-        return dumps(note)
+        return note
 
     @rpc
     def view_all_notes(self, user):
@@ -69,7 +69,7 @@ class Note(object):
 
         notes = mongo.find({'user_id': user})
 
-        return dumps(notes)
+        return notes
 
     def __validate_note(self, note):
         pass

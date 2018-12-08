@@ -29,13 +29,13 @@ class Auth(object):
             if (hashpw(password.encode('utf-8'), user['password']) == user['password']):
                 token = self.__encode_auth_token(username)
                 log.info("User was authenticate.")
-                return {'code': 0, 'token': token}
+                return token
             else:
                 log.info("User was not authenticate.")
-                return {'code': 1, 'error': 'Wrong username or password'}
+                return 1
         else:
             log.info("User was not authenticate.")
-            return {'code': 1, 'error': 'Wrong username or password'}
+            return 1
 
     def __encode_auth_token(self, username):
         try:
@@ -58,6 +58,6 @@ class Auth(object):
             payload = jwt.decode(auth_token, self.SECRET_KEY)
             return payload['sub']
         except jwt.ExpiredSignatureError:
-            return {'code': 2, 'error': 'Signature expired. Please log in again.'}
+            return 'Signature expired. Please log in again.'
         except jwt.InvalidTokenError:
-            return {'code': 2, 'error': 'Invalid token. Please log in again.'}
+            return 'Invalid token. Please log in again.'

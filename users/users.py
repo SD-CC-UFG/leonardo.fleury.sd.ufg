@@ -18,8 +18,10 @@ class Users(object):
     @rpc
     def create_user(self, username, password):
         mongo = get_db()
-        # TODO: Test username for empty string, `$` character, null character or begin with `system.`
         # TODO: Password should have at least 6 characters
+        if not self.__username_is_valid(username):
+            return 1
+
         user = {
             '_id': username,
             'password': hashpw(password.encode('utf-8'), gensalt()),
@@ -31,7 +33,7 @@ class Users(object):
         log.info("New user created.")
         log.debug("New user: {} created.".format(user_id))
 
-        return dumps(user_id)
+        return user_id
 
     @rpc
     def update_user_password(self, username, old_password, new_password):
@@ -49,16 +51,16 @@ class Users(object):
 
             if mod_count is not 0:
                 log.info("{} changed password".format(username))
-                return json.dumps({'code': 0, 'success': 'Password modified'})
+                return 0
             else:
-                log.info("Could not change password from user {}.".format(username))
-                return json.dumps({'code': 1, 'error': 'Password could not be modified. Try again.'})
+                log.error("Could not change password from user {}.".format(username))
+                return 1
 
-            log.info("Something happened...")
+            log.error("Something happened...")
             return dumps(mod_count)
         else:
-            log.info("Incorrect password.")
-            return json.dumps({'code': 2, 'error': 'Incorrect password.'})
+            log.error("Incorrect password.")
+            return 2
 
     @rpc
     def delete_user(self, username):
@@ -67,10 +69,10 @@ class Users(object):
 
         if deleted:
             log.info("User {} deleted.".format(username))
-            return json.dumps({'code': 0, 'success': "User deleted with success."})
+            return 0
         else:
-            log.info("User {} could not be deleted.".format(username))
-            return json.dumps({'code': 1, 'error': "Could not delete user. Try again."})
+            log.error("User {} could not be deleted.".format(username))
+            return 1
 
     @rpc
     def view_user(self, username):
@@ -78,10 +80,15 @@ class Users(object):
 
         user = mongo.find_one({"_id": username})
 
-        return dumps(user)
+        return user
 
-    def __validate_username(self, username):
-        pass
+    def __username_is_valid(self, username):
+        # TODO: Test username for null character
 
-    def __validate_password(self, password):
+        if (username is "") or ('$' in username) or (username.startswith('system.')):
+            return False
+
+        return True
+
+    def __password_is_valid(self, password):
         pass

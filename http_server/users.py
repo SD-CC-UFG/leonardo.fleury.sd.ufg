@@ -1,7 +1,10 @@
+import logging
+
 from flask import current_app
 from flask_restful import reqparse, abort, Resource
 from nameko.standalone.rpc import ClusterRpcProxy
 
+log = logging.getLogger(__name__)
 
 class User(Resource):
     def get(self, username):
