@@ -28,6 +28,7 @@ def create_app(test_config=None):
             with open("config.yaml", 'r') as ymlfile:
                 cfg = yaml.load(ymlfile)
                 app.config.from_object(cfg)
+                print(app.config)
         except IOError as e:
             log.error("Error loading configuration file.")
             log.error(e)
