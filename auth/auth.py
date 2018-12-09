@@ -8,8 +8,10 @@ from nameko.rpc import rpc
 from bson.json_util import dumps
 from bcrypt import hashpw, gensalt
 
-from auth import log, config
+from auth.config import config
 from auth.database import get_db
+
+log = logging.getLogger(__name__)
 
 class Auth(object):
     name = "auth"
@@ -24,7 +26,7 @@ class Auth(object):
             if (hashpw(password.encode('utf-8'), user['password']) == user['password']):
                 token = self.__encode_auth_token(username)
                 log.info("User was authenticate.")
-                return token
+                return dumps(token)
             else:
                 log.info("User was not authenticate.")
                 return 1
@@ -36,13 +38,13 @@ class Auth(object):
         try:
             payload = {
                 'iss': 'notes auth server',
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),
-                'iat': datetime.datetime.utcnow(),
+                'exp': datetime.utcnow() + timedelta(days=0, seconds=5),
+                'iat': datetime.utcnow(),
                 'sub': username
             }
             return jwt.encode(
                 payload,
-                config.SECRET_KEY,
+                config['SECRET_KEY'],
                 algorithm='HS256'
             )
         except Exception as e:
@@ -50,7 +52,7 @@ class Auth(object):
 
     def __decode_auth_token(self, auth_token):
         try:
-            payload = jwt.decode(auth_token, config.SECRET_KEY)
+            payload = jwt.decode(auth_token, config['SECRET_KEY'])
             return payload['sub']
         except jwt.ExpiredSignatureError:
             return 'Signature expired. Please log in again.'

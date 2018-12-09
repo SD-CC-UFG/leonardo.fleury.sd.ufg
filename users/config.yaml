@@ -4,7 +4,7 @@ WEB_SERVER_ADDRESS: '0.0.0.0:8000'
 max_workers: 10
 parent_calls_tracked: 10
 
-DATABASE: mongodb+srv://${MONGO_USER:notes_admin}:${MONGO_PASSWORD:GhUTriaIlUzOVmIC}@${MONGO_HOST:notesdb-ytix1.gcp.mongodb.net/notes?retryWrites=true}
+DATABASE: mongodb+srv://${MONGO_USER:users_admin}:${MONGO_PASSWORD:sHM3oaMqcM8PaTML}@${MONGO_HOST:notesdb-ytix1.gcp.mongodb.net/users?retryWrites=true}
 
 LOGGING:
     version: 1
