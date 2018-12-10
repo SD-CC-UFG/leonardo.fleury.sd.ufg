@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 class User(Resource):
     def get(self, username):
         with ClusterRpcProxy(current_app.config) as rpc:
-            user_id = rpc.users.view_user(username)
+            user_id = json.loads(rpc.users.view_user(username))
             return user_id, 200
     
     def put(self, username):
@@ -20,12 +20,12 @@ class User(Resource):
         args = parser.parse_args()
 
         with ClusterRpcProxy(current_app.config) as rpc:
-            user_id = rpc.users.update_user_password(username, args['password'], args['new_password'])
+            user_id = json.loads(rpc.users.update_user_password(username, args['password'], args['new_password']))
             return user_id, 200
     
     def delete(self, username):
         with ClusterRpcProxy(current_app.config) as rpc:
-            user_id = rpc.users.delete_user(username)
+            user_id = json.loads(rpc.users.delete_user(username))
             return user_id, 200
 
 class Users(Resource):
@@ -36,5 +36,5 @@ class Users(Resource):
         args = parser.parse_args()
 
         with ClusterRpcProxy(current_app.config) as rpc:
-            user_id = rpc.users.create_user(args['username'], args['password'])
+            user_id = json.loads(rpc.users.create_user(args['username'], args['password']))
             return user_id, 200
