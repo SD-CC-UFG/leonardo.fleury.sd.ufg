@@ -18,17 +18,15 @@ def create_app(test_config=None):
     # TODO: Get secret_key from config.yaml
     app.config.from_mapping(
         SECRET_KEY='dev',
-        AMQP_URI='pyamqp://guest:guest@localhost')
+        AMQP_URI='pyamqp://guest:guest@localhost',
+        JWT_KEY='secret_jwt_key')
 
     api = Api(app)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
         try:
-            with open("config.yaml", 'r') as ymlfile:
-                cfg = yaml.load(ymlfile)
-                app.config.from_object(cfg)
-                print(app.config)
+            app.config.from_pyfile("config.cfg")
         except IOError as e:
             log.error("Error loading configuration file.")
             log.error(e)
