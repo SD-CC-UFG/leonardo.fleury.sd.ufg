@@ -4,6 +4,7 @@ import logging
 
 from flask import Flask
 from flask_restful import Api
+from flask_jwt_extended import JWTManager
 
 from http_server.notes import Note, Notes
 from http_server.users import User, Users
@@ -19,9 +20,10 @@ def create_app(test_config=None):
     app.config.from_mapping(
         SECRET_KEY='dev',
         AMQP_URI='pyamqp://guest:guest@localhost',
-        JWT_KEY='secret_jwt_key')
+        JWT_SECRET_KEY='secret_jwt_key')
 
     api = Api(app)
+    jwt = JWTManager(app)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing

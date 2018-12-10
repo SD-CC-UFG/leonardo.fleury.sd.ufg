@@ -76,10 +76,9 @@ class Note(object):
         return json.dumps({
                     "code": 0,
                     "note": {
-                        "id": note["_id"],
+                        "id": str(note["_id"]),
                         "title": note["title"],
-                        "text": note["text"],
-                        "created_at": note["created"]
+                        "text": note["text"]
                     }
                 })
 
