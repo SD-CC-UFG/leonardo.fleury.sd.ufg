@@ -1,5 +1,6 @@
 import datetime
 import logging
+import json
 
 from nameko.rpc import rpc
 from bson.objectid import ObjectId
@@ -12,13 +13,14 @@ log = logging.getLogger(__name__)
 class Note(object):
     name = "notes"
 
+    @rpc
     def create_note(self, user, title, text):
         mongo = get_db()
         # TODO: Document can be 16MB or less
         note = {'title': title,
                 'text': text,
                 'user_id': user,
-                'created': datetime.datetime.utcnow(),
+                # 'created': datetime.datetime.utcnow(),
                 'last_updated': datetime.datetime.utcnow()}
 
         note_id = mongo.insert_one(note).inserted_id
@@ -26,7 +28,10 @@ class Note(object):
         log.info("{} created a note.".format(user))
         log.debug("{} created a note with id {}.".format(user, note_id))
 
-        return note_id
+        return json.dumps({
+            "code": 0,
+            "note_id": str(note_id)
+        })
 
     @rpc
     def update_note(self, user, note_id, title, text):
@@ -42,7 +47,10 @@ class Note(object):
         log.info("{} updated a note.".format(user))
         log.debug("Note {} from {} updated.".format(user, note_id))
 
-        return mod_count
+        return json.dumps({
+                    "code": 0,
+                    "modified_count": mod_count
+                })
 
     @rpc
     def delete_note(self, user, note_id):
@@ -54,7 +62,10 @@ class Note(object):
         log.info("{} deleted a note.".format(user))
         log.debug("Note {} from {} deleted.".format(user, note_id))
 
-        return del_count
+        return json.dumps({
+                    "code": 0,
+                    "deleted_count": del_count
+                })
 
     @rpc
     def view_note(self, user, note_id):
@@ -62,7 +73,15 @@ class Note(object):
 
         note = mongo.find_one({"_id": ObjectId(note_id)})
 
-        return note
+        return json.dumps({
+                    "code": 0,
+                    "note": {
+                        "id": note["_id"],
+                        "title": note["title"],
+                        "text": note["text"],
+                        "created_at": note["created"]
+                    }
+                })
 
     @rpc
     def view_all_notes(self, user):
@@ -70,7 +89,7 @@ class Note(object):
 
         notes = mongo.find({'user_id': user})
 
-        return notes
+        return dumps(notes)
 
     def __validate_note(self, note):
         pass

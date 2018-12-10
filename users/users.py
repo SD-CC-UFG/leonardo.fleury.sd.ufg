@@ -33,7 +33,10 @@ class Users(object):
         log.info("New user created.")
         log.debug("New user: {} created.".format(user_id))
 
-        return user_id
+        return json.dumps({
+            "code": 0,
+            "user_id": user_id
+        })
 
     @rpc
     def update_user_password(self, username, old_password, new_password):
@@ -51,16 +54,28 @@ class Users(object):
 
             if mod_count is not 0:
                 log.info("{} changed password".format(username))
-                return 0
+                return json.dumps({
+                    "code": 0,
+                    "modified_count": mod_count
+                })
             else:
                 log.error("Could not change password from user {}.".format(username))
-                return 1
+                return json.loads({
+                    "code": 1,
+                    "error": "Could not change password from user {}.".format(username)
+                })
 
             log.error("Something happened...")
-            return dumps(mod_count)
+            return json.loads({
+                    "code": 3,
+                    "error": "Something happened..."
+                })
         else:
             log.error("Incorrect password.")
-            return 2
+            return json.loads({
+                    "code": 2,
+                    "error": "Incorrect password."
+                })
 
     @rpc
     def delete_user(self, username):
@@ -69,10 +84,16 @@ class Users(object):
 
         if deleted:
             log.info("User {} deleted.".format(username))
-            return 0
+            return json.dumps({
+                    "code": 0,
+                    "deleted_count": deleted
+                })
         else:
             log.error("User {} could not be deleted.".format(username))
-            return 1
+            return json.dumps({
+                    "code": 1,
+                    "error": "User {} could not be deleted.".format(username)
+                })
 
     @rpc
     def view_user(self, username):
@@ -80,7 +101,13 @@ class Users(object):
 
         user = mongo.find_one({"_id": username})
 
-        return user
+        return json.dumps({
+                    "code": 0,
+                    "user": {
+                        "user_id": user["_id"],
+                        # "created_at": user["created"]
+                    }
+                })
 
     def __username_is_valid(self, username):
         # TODO: Test username for null character
