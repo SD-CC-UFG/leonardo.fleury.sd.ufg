@@ -6,4 +6,7 @@ from notes.config import config
 log = logging.getLogger(__name__)
 
 def get_db(user=None):
-    return MongoClient(config['DATABASE']).notes.notes
+    try:
+        db = MongoClient(config['DATABASE']).notes.notes
+    except:
+        log.debug('Could not connect to database')
