@@ -20,23 +20,27 @@ class Auth(object):
     @rpc
     def login(self, username, password):
         mongo = get_db()
+        log.debug('Trying to authenticate {}'.format(username))
 
         user = mongo.find_one({'_id': username})
 
-        if user:
+        if user: 
             if (hashpw(password.encode('utf-8'), user['password']) == user['password']):
                 log.info("User was authenticate.")
+                log.debug("{} logged successeful.".format(user['_id']))
                 return json.dumps({
                     "code": 0
                 })
             else:
                 log.info("Incorrect password.")
+                log.info("{} entered wrong password.".format(user['_id']))
                 return json.dumps({
                     "code": 1,
                     "error": "Incorrect password."
                 })
         else:
             log.info("Could not find user.")
+            log.debug("User {} not found".format(user['_id']))
             return json.dumps({
                     "code": 1,
                     "error": "Could not find user."
